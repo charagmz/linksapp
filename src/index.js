@@ -5,11 +5,13 @@ const path = require('path');
 const flash = require('connect-flash');
 const session = require('express-session');
 const MySQLStore = require('express-mysql-session');
+const passport = require('passport');
 
 const { database } = require('./keys');
 
 // Initializations
 const app = express();
+require('./lib/passport');//para que la aplicacion se entere de la autenticacion que estamos usando
 
 // Settings
 app.set('port', process.env.PORT || 4000);
@@ -30,10 +32,12 @@ app.use(session({
     saveUninitialized: false,
     store: new MySQLStore(database)
 }));
-app.use(flash());
+app.use(flash());//manejo de mensajes con connect-flash (success/error)
 app.use(morgan('dev'));
 app.use(express.urlencoded({extended: false}));//para indicar que se aceptaran parametros de formularios, solo campos sencillos (no imagenes)
 app.use(express.json());
+app.use(passport.initialize());//para inicializar el manejo de sesiones
+app.use(passport.session());//para indicar donde va a guardar los datos de session/logueo
 
 // Global Variables
 app.use((req, res, next) => {

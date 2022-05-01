@@ -42,6 +42,7 @@ app.use(passport.session());//para indicar donde va a guardar los datos de sessi
 // Global Variables
 app.use((req, res, next) => {
     app.locals.success = req.flash('success');
+    app.locals.message = req.flash('message');
     next();
 })
 

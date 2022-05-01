@@ -13,7 +13,6 @@ passport.use('local.signin', new LocalStrategy({
     if (rows.length > 0) {
         const user = rows[0];
         const validPassword = await helpers.matchPassword(password, user.password);
-        console.log(validPassword)
         if (validPassword) {
             done(null, user, req.flash('success', 'Wellcome ' + user.username));
         } else {

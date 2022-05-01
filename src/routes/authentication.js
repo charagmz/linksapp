@@ -1,9 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const passport = require('passport');
+const { isLoggedIn, isNotLoggedIn } = require('../lib/auth');
 
 
-router.get('/signup', (req, res) => {
+router.get('/signup', isNotLoggedIn, (req, res) => {
     res.render('auth/signup');
 });
 
@@ -20,18 +21,18 @@ router.post('/signup', (req, res) => {
 */
  
 //Otra forma de hacer lo anterior
-router.post('/signup', passport.authenticate('local.signup', {
+router.post('/signup', isNotLoggedIn, passport.authenticate('local.signup', {
         successRedirect: '/profile',
         failureRedirect: '/signup',
         failureFlash: true
 }));
 
-router.get('/signin', (req, res) => {
+router.get('/signin', isNotLoggedIn, (req, res) => {
     res.render('auth/signin');
 });
 
 //se escribe de esta form para el manejo de validaciones
-router.post('/signin', (req, res, next) => { 
+router.post('/signin', isNotLoggedIn, (req, res, next) => { 
     passport.authenticate('local.signin', {
         successRedirect: '/profile',
         failureRedirect: '/signin',
@@ -39,8 +40,13 @@ router.post('/signin', (req, res, next) => {
     })(req, res, next);
 });
 
-router.get('/profile', (req, res) => {
-    res.send('your profile');
+router.get('/profile', isLoggedIn, (req, res, next) => {
+    res.render('profile');
+});
+
+router.get('/logout', isLoggedIn, (req, res) => {
+    req.logOut();//al inicializar passport agrega al objeto request el metodo logOut (ademas de otros)  
+    res.redirect('/signin');
 });
 
 module.exports = router;

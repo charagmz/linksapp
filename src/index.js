@@ -43,6 +43,7 @@ app.use(passport.session());//para indicar donde va a guardar los datos de sessi
 app.use((req, res, next) => {
     app.locals.success = req.flash('success');
     app.locals.message = req.flash('message');
+    app.locals.user = req.user;//con el usuario logueado/serializado se puede obtener de request
     next();
 })
 

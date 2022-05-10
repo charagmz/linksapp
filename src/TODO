@@ -1,2 +1,3 @@
-MVC: Sacar las consultas en el modelo y no en el controlador
+--MVC Sacar las consultas en el modelo 
+MVC Separar el controlador
 Login: Poder loguear con google o facebook

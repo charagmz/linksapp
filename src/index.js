@@ -50,7 +50,7 @@ app.use((req, res, next) => {
 // Routes
 app.use(require('./routes'));
 app.use(require('./routes/authentication'));
-app.use('/links', require('./routes/links'));
+app.use('/links', require('./routes/links'));//esto hace que en el router links no se tenga que especificar en cada url el /links, es decir se usa /add en vez de /links/add, en las vistas se debe usar normal como /links/add
 
 // Public
 app.use(express.static(path.join(__dirname, 'public')));

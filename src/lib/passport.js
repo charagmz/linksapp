@@ -42,6 +42,7 @@ passport.use('local.signup', new LocalStrategy({
     return done(null, newUser);//despues de ingresado en la bd que retorne el usuario para almacenarlo en sesion
 }));
 
+//almacenamiento del usuario en la session
 passport.serializeUser((user, done) => {
     done(null, user.id);
 });
